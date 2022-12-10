@@ -23,6 +23,6 @@ public:
 	Cell Map[20][20];
 	std::vector<Entity*> Entities; 
 	void entity_steps(Cell* StartCell);
-	std::vector<std::vector<int>> adj_list(400, std::vector<int>());
+	std::vector<std::vector<int>> adj_list;
 	void fill_adj_list();
 };

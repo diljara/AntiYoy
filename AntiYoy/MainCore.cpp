@@ -21,9 +21,9 @@ void MainCore::entity_steps(Cell* StartCell)
     {
         int v = q.front();
         q.pop();
-        for (unsigned int i = 0; i < g[v].size(); ++i)
+        for (unsigned int i = 0; i < adj_list[v].size(); ++i)
         {
-            int to = g[v][i];
+            int to = adj_list[v][i];
             if (!used[to] &&
                 Map[to / 20][to % 20].Player_status == Map[s / 20][s % 20].Player_status)
             {
@@ -53,20 +53,13 @@ void MainCore::entity_steps(Cell* StartCell)
         if (path.size() - 1 < 3)
             can_go.push_back(to);
     }
-
-    /*
-    ������ ���� �������� �� ��, ���� �� Entity � ������, ����� Cell::entity_pointer. (���������
-    ��� ��� �������?)
-    ��������� Map � GameCore ������� ������ ���������� �� ������ � ������� ����� ������
-    ������ � ������� ��������� Entity (� ������ ������ ���� entity_pointer), ������
-    ����������� �� power, � ������ � ������, ���� ���� ��������� ����� ������ �������������
-    ���������� ��������� �� ������.
-    */
 }
 
 
 void MainCore::fill_adj_list()
 {
+    adj_list.resize(400, std::vector<int>());
+
     for (unsigned int i = 0; i < 20; i++)
     {
         for (unsigned int j = 0; j < 20; j++)
