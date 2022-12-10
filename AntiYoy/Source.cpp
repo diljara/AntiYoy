@@ -2,6 +2,8 @@
 #include "Maincore.h"
 
 
+
+
 int main() {
 	MainCore Engine = MainCore();
 	while (Engine.gamestatus) {

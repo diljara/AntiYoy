@@ -4,11 +4,10 @@
 #include "Player.h"
 #include "Cell.h"
 #include "Entity.h"
+#include "Button.h"
 
 
 void GameCore::update(int elapsed) //event handler
-/*обновл€ет экран, в случае нажати€ кнопки escape или закрыти€ окна, закрывает окно*/
-
 {
     sf::Event event;
     bool drag = false;
@@ -34,20 +33,24 @@ void GameCore::update(int elapsed) //event handler
 }
 
 void GameCore::draw()
-/*отрисовывает карту, ну или должна в теории*/
+/*what needs to be drawn should be asked to render here*/
 {
     window->clear();
+    /*sf::Vector2f coord;
+    coord.x = 500;
+    coord.y = 500;*/
+    //Button button = Button("coin.png", coord, window, "wubba lubba dub dub");
+    //button.render();
+    /*Entity ent("wild.png", coord);
+    Cell cell(coord, window, &ent);
+    cell.render();*/
 
-
-    //win->draw(sprite);
-
+    
 
     window->display();
 }
 
 void GameCore::start()
-/*запускает цикл из функций update, draw*/
-
 {
     sf::Clock clc;
     while (window->isOpen()) {
@@ -59,15 +62,12 @@ void GameCore::start()
 }
 
 GameCore::GameCore()
-/*конструктор создает окно*/
 
 {
-    window = new sf::RenderWindow(sf::VideoMode(800, 800), "SFML window");
+    window = new sf::RenderWindow({ 1100, 900 }, "Antiyoy", sf::Style::None);
 }
 
 GameCore::~GameCore()
-/*деструктор удал€ет окно*/
-
 {
     delete window;
 }
