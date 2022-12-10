@@ -3,12 +3,13 @@
 #include "Gamecore.h"
 #include "Entity.h"
 #include "Cell.h"
+#include <vector>
 #include <queue>
-
+#include <algorithm>
 
 void MainCore::entity_steps(Cell* StartCell)
 {
-    int s = Cell->map_coord[0] * 20 + Cell->map_coord[1];
+    int s = StartCell->map_coord[0] * 20 + StartCell->map_coord[1];
 
     std::queue<int> q;
     q.push(s);
@@ -53,6 +54,14 @@ void MainCore::entity_steps(Cell* StartCell)
             can_go.push_back(to);
     }
 
+    /*
+    ������ ���� �������� �� ��, ���� �� Entity � ������, ����� Cell::entity_pointer. (���������
+    ��� ��� �������?)
+    ��������� Map � GameCore ������� ������ ���������� �� ������ � ������� ����� ������
+    ������ � ������� ��������� Entity (� ������ ������ ���� entity_pointer), ������
+    ����������� �� power, � ������ � ������, ���� ���� ��������� ����� ������ �������������
+    ���������� ��������� �� ������.
+    */
 }
 
 
