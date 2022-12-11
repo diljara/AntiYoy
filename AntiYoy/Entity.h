@@ -18,4 +18,5 @@ public:
 	bool alive_status; /*if alive = 1, else 0*/
 	void get_killed();
 	//in order to draw use win->draw(sprite);
+	~Entity();
 };

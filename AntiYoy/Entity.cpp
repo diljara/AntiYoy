@@ -34,7 +34,18 @@ Entity::Entity(std::string name, sf::Vector2f coordinates, bool stat, unsigned s
 	alive_status = stat;
 	money_cost = money;
 }
+//
+//void Entity::get_killed() {
+//	alive_status = 0;
+//}
 
-void Entity::get_killed() {
-	alive_status = 0;
+Entity::~Entity() {
+	delete &tex;
+	delete &coord;
+	delete &money_cost;
+	delete &map_coord;
+	delete &sprite;
+	delete &power;
+	delete &alive_status;
+
 }

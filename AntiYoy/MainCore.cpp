@@ -149,19 +149,37 @@ void MainCore::fill_adj_list()
 
 MainCore::MainCore()
 {
-    gamestatus = 1;
+    gamestatus = true;
     GraphicsCore = GameCore();
     for (int x = 0; x < 20; x++)
     {
         for (int y = 0; y < 20; y++)
         {
 
-            // Map[x][y] = Cell(x, y, GraphicsCore.window);
-            // Map_pointer[x][y] = &Map[x][y];
             Map[x][y] = Cell(x, y, GraphicsCore.window);
+            Map_pointer[x][y] = &Map[x][y];
         }
     }
 
-    /*Player1 = Player(&Map[20][20]);
-    Player2 = Player(&Map[0][0]);*/
+    Player1 = Player(&Map[20][20]);
+    Player2 = Player(&Map[0][0]);
+    players[0] = &Player1;
+    players[1] = &Player2;
+}
+
+void processing() {
+    for (int i = 0; i < 2; i++) {
+        players[i]->money += players[i]->self_cells.size();
+        int debt = 0;
+        for (int j = 0; j < players[i]->self_entity_cells.size(); j++) {
+            debt += players[i]->self_entity_cells->power;
+        }
+        if (debt > players[i]->money) {
+            /*kill every entity*/
+        }
+        else {
+            players[i]->money = players[i]->money - debt;
+        }
+        
+    }
 }
