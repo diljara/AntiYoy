@@ -50,6 +50,7 @@ std::vector<Cell *> MainCore::entity_steps(Cell* StartCell)
     for (unsigned int to = 0; to < 400; to++)
         if (d[to] <= 3 && to != s) 
             can_go.push_back(&Map[to / 20][to % 20]);
+    return can_go;
 }
 
 
