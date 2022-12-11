@@ -7,7 +7,7 @@
 #include <queue>
 #include <algorithm>
 
-void MainCore::entity_steps(Cell* StartCell)
+std::vector<Cell *> MainCore::entity_steps(Cell* StartCell)
 {
     int s = StartCell->map_coord[0] * 20 + StartCell->map_coord[1];
 
@@ -46,10 +46,10 @@ void MainCore::entity_steps(Cell* StartCell)
         }
     }
 
-    std::vector<int> can_go;
+    std::vector<Cell *> can_go;
     for (unsigned int to = 0; to < 400; to++)
     {
-        if (d[to] <= 3 && to != s) can_go.push_back(to);
+        if (d[to] <= 3 && to != s) can_go.push_back(Map[to / 20][to % 20]);
         // std::vector<int> path;
         // for (int v = to; v != -1; v = p[v])
         //     path.push_back(v);
