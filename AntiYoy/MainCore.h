@@ -16,7 +16,6 @@ public:
 	MainCore();
 	GameCore GraphicsCore;
 	bool gamestatus;
-	GameCore Core;
 	Player Player1;
 	Player Player2;
 	Player* players; /*[Player1, Player2*/
