@@ -167,12 +167,12 @@ MainCore::MainCore()
     players[1] = &Player2;
 }
 
-void processing() {
+void MainCore::processing() {
     for (int i = 0; i < 2; i++) {
         players[i]->money += players[i]->self_cells.size();
         int debt = 0;
         for (int j = 0; j < players[i]->self_entity_cells.size(); j++) {
-            debt += players[i]->self_entity_cells->power;
+            debt = players[i]->self_entity_cells[j]->power;
         }
         if (debt > players[i]->money) {
             /*kill every entity*/
