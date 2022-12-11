@@ -25,18 +25,22 @@ void MainCore::entity_steps(Cell* StartCell)
         {
             int to = adj_list[v][i];
             if (!used[to] &&
-                Map[to / 20][to % 20].Player_status == Map[s / 20][s % 20].Player_status)
+                (Map[to / 20][to % 20].Player_status == Map[s / 20][s % 20].Player_status ||
+                 Map[to / 20][to % 20].Player_status == 0))
             {
-                used[to] = true;
-                q.push(to);
-                d[to] = d[v] + 1;
-                p[to] = v;
-            }
-            else
-            {
-                if (!used[to] && Map[to / 20][to % 20].Player_status == 0)
+                if (Map[v / 20][v % 20].Player_status)
                 {
-                    // ???
+                    used[to] = true;
+                    q.push(to);
+                    d[to] = d[v] + 1;
+                    p[to] = v;
+                }
+                else
+                {
+                    used[to] = true;
+                    q.push(to);
+                    d[to] = d[v] + 100;
+                    p[to] = v;
                 }
             }
         }
@@ -45,13 +49,13 @@ void MainCore::entity_steps(Cell* StartCell)
     std::vector<int> can_go;
     for (unsigned int to = 0; to < 400; to++)
     {
-
-        std::vector<int> path;
-        for (int v = to; v != -1; v = p[v])
-            path.push_back(v);
-        std::reverse(path.begin(), path.end());
-        if (path.size() - 1 < 3)
-            can_go.push_back(to);
+        if (d[to] <= 3 && to != s) can_go.push_back(to);
+        // std::vector<int> path;
+        // for (int v = to; v != -1; v = p[v])
+        //     path.push_back(v);
+        // std::reverse(path.begin(), path.end());
+        // if (path.size() - 1 < 3)
+        //     can_go.push_back(to);
     }
 }
 
