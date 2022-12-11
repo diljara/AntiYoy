@@ -12,6 +12,6 @@ public:
 	Player(Cell* start_cell);
 	unsigned short int money;
 	std::vector<Cell*> self_cells;
-	std::vector<Cell*> self_entity_cells; /*Cells, where there are entities*/
+	std::vector<Entity*> self_entity_cells; /*Cells, where there are entities*/
 	bool movestatus; /*1 if Player's move now*/
 };
