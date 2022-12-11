@@ -48,15 +48,8 @@ std::vector<Cell *> MainCore::entity_steps(Cell* StartCell)
 
     std::vector<Cell *> can_go;
     for (unsigned int to = 0; to < 400; to++)
-    {
-        if (d[to] <= 3 && to != s) can_go.push_back(Map[to / 20][to % 20]);
-        // std::vector<int> path;
-        // for (int v = to; v != -1; v = p[v])
-        //     path.push_back(v);
-        // std::reverse(path.begin(), path.end());
-        // if (path.size() - 1 < 3)
-        //     can_go.push_back(to);
-    }
+        if (d[to] <= 3 && to != s) 
+            can_go.push_back(Map[to / 20][to % 20]);
 }
 
 
