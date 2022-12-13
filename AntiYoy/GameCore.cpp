@@ -67,7 +67,7 @@ GameCore::GameCore()
     window = new sf::RenderWindow({ 1100, 900 }, "Antiyoy", sf::Style::None);
 }
 
-GameCore::~GameCore()
-{
-    delete window;
-}
+//GameCore::~GameCore()
+//{
+//    delete window;
+//}

@@ -4,7 +4,7 @@
 
 
 
-int main() {
+void main() {
 	MainCore Engine = MainCore();
 	//while (Engine.gamestatus) {
 	//	for (unsigned short int i = 0; i < 2; i++) {
@@ -25,5 +25,5 @@ int main() {
 	//	}
 	//	/*Engine.proccessing();*/
 	//}
-	return 0;
+	std::cout << 1;
 }
