@@ -41,8 +41,11 @@ void GameCore::draw()
     coord.y = 500;*/
     //Button button = Button("coin.png", coord, window, "wubba lubba dub dub");
     //button.render();
-    /*Entity ent("wild.png", coord);
-    Cell cell(coord, window, &ent);
+    /*sf::Vector2f coords;
+    coords.x = 600;
+    coords.y = 600;
+    Entity ent("wild.png", coords);
+    Cell cell(coords, window, &ent);
     cell.render();*/
 
     
@@ -67,7 +70,7 @@ GameCore::GameCore()
     window = new sf::RenderWindow({ 1100, 900 }, "Antiyoy", sf::Style::None);
 }
 
-//GameCore::~GameCore()
-//{
-//    delete window;
-//}
+GameCore::~GameCore()
+{
+    delete window;
+}
