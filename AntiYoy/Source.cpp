@@ -1,29 +1,23 @@
 #include <iostream>
 #include "Maincore.h"
-
+#include <SFML/Graphics.hpp>
 
 
 
 void main() {
-	MainCore Engine = MainCore();
-	//while (Engine.gamestatus) {
-	//	for (unsigned short int i = 0; i < 2; i++) {
-	//		Engine.players[i]->movestatus = true;
-	//		while (Engine.players[i]->movestatus) {
-	//			/*Engine.GraphicsCore.render();
-	//			string a = Engine.GraphicsCore.events();
-	//			if (a == 'move') {
-	//				Engine.moveprocess();
+	//MainCore Engine = MainCore();
+	//sf::Clock clc;
+	//while(Engine.GraphicsCore.window->isOpen()){
+	//	while (Engine.gamestatus) {
+	//		for (unsigned short int i = 0; i < 2; i++) {
+	//			Engine.players[i]->movestatus = true;
+	//			while (Engine.players[i]->movestatus) {
+	//				/*Engine.GraphicsCore.update();*/
 	//			}
-	//			if (a == 'buy') {
-	//				Engine.buyprocess();
-	//			}
-	//			if (a == 'end') {
-	//				Engine.players[i].movestatus == false;
-	//			}*/
 	//		}
+	//		/*Engine.processing();*/
 	//	}
-	//	/*Engine.proccessing();*/
 	//}
-	std::cout << 1;
+	GameCore g;
+	g.start();
 }

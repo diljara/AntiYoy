@@ -169,11 +169,17 @@ void MainCore::processing() {
             debt = players[i]->self_entity_cells[j]->power;
         }
         if (debt > players[i]->money) {
-            /*kill every entity*/
+            for (int entity_count = 0; entity_count < players[i]->self_entity_cells.size(); entity_count++) {
+                delete players[i]->self_entity_cells[entity_count];
+            }
         }
         else {
             players[i]->money = players[i]->money - debt;
         }
         
+    }
+    std::vector<Cell*> virtent;
+    for (int i = 0; i < players[0]->self_entity_cells.size() + players[1]->self_entity_cells.size(); i++) {
+
     }
 }

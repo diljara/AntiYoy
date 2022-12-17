@@ -16,7 +16,7 @@ public:
 	void draw();
 	GameCore();
 	void start();
-	/*~GameCore();*/
+	~GameCore();
 	sf::RenderWindow* window;/*указатель на окно*/
 
 };
