@@ -148,6 +148,15 @@ void MainCore::fill_adj_list()
         }
     }
 }
+void MainCore::draw_way(Cell* StartCell, sf::RenderWindow* window){
+    std::vector<Cell*> way_array;
+    for (int counter_way = 0; counter_way < entity_steps(StartCell).size(); counter_way++) {
+        way_array.push_back(entity_steps(StartCell)[counter_way]);
+    }
+    for (int counter_way = 0; counter_way < way_array.size(); counter_way++) {
+        way_array[counter_way]->draw_point(window);
+    }
+}
 
 MainCore::MainCore()
 {

@@ -25,6 +25,15 @@ Cell::Cell(int x, int y)
     color = sf::Color(255, 255, 255);
 
 }
+void Cell::draw_point(sf::RenderWindow* window) {
+    sf::CircleShape point(10.f);
+
+    point.setFillColor(sf::Color(0, 0, 0));
+    sf::CircleShape* pont = &point;
+    float centr_f[2] = {startx + size + 5, starty + size * sqrt(3)};
+    point.setPosition(sf::Vector2f(centr_f[0], centr_f[1]));
+    window->draw(point);
+}
 
 void Cell::draw(sf::RenderWindow* window, sf::ConvexShape* arr) {
     sf::ConvexShape* hex;

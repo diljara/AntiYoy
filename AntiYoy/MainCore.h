@@ -30,4 +30,5 @@ public:
 	std::vector<Cell *> entity_steps(Cell* StartCell);
 	std::vector<std::vector<int>> adj_list;
 	void fill_adj_list();
+	void draw_way(Cell* StartCell, sf::RenderWindow* window);
 };

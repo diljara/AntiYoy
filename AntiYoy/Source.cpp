@@ -72,6 +72,8 @@ void main() {
 														BFS
 
 														!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+														/*Engine.draw_way(&Engine.Map[i][j], &window);*/
+														std::vector<Cell*> way_array = Engine.entity_steps(&Engine.Map[i][j]);
 													}
 													else {
 														while (window.pollEvent(event)) {
