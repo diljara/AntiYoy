@@ -154,12 +154,40 @@ MainCore::MainCore()
         }
     }
 
-    Player1 = Player(&Map[20][20]);
-    Player2 = Player(&Map[0][0]);
+    Player1 = Player(&Map[19][19], sf::Color(120, 0, 0));
+    Player2 = Player(&Map[0][0], sf::Color(0, 0, 120));
+
+    Map[0][0].color = Player2.color;
+    Map[0][0].player_status = 2;
+    Map[19][19].color = Player1.color;
+    Map[19][19].player_status = 1;
+
     players[0] = &Player1;
     players[1] = &Player2;
 }
-//
+
+void MainCore::createEnt(int x, int y, int player_num) {
+    ent.push_back(Entity(x, y, player_num));
+    Entities.push_back(&ent[ent.size() - 1]);
+    Map[x][y].entity_status = 1;
+    Map[x][y].entity_pointer = Entities[Entities.size() - 1];
+    players[player_num]->self_entity_cells.push_back(Entities[Entities.size() - 1]);
+
+}
+
+void MainCore::processing() {
+    Player1.movestatus = true;
+    Player2.movestatus = true;
+    for (int counter = 0; counter < players[0]->self_cells.size(); counter++) {
+        if (players[0]->self_cells[counter]->entity_status == 0){
+            players[0]->self_cells[counter]->color = players[0]->color;
+        }
+        else {
+            players[0]->self_cells[counter]->color = players[0]->ent_color;
+        }
+    }
+}
+
 //void MainCore::processing() {
 //    for (int i = 0; i < 2; i++) {
 //        players[i]->money += players[i]->self_cells.size();

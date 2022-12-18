@@ -20,10 +20,32 @@ Cell::Cell(int x, int y)
     size = 20;
     startx = 100 + 3 * size * x / 2;
     starty = 100 + x % 2 * size * sqrt(3) / 2 + sqrt(3) * size * y;
-    centr[0] = (int)startx + size;
-    centr[1] = (int)starty + size / 2;
+    centr[0] = startx + size + 5;
+    centr[1] = starty + size * sqrt(3);
+    color = sf::Color(255, 255, 255);
 
 }
+
+void Cell::draw(sf::RenderWindow* window, sf::ConvexShape* arr) {
+    sf::ConvexShape* hex;
+    hex = arr;
+    hex->setPointCount(6);
+    int a = size;
+    float startx = 100 + 3 * a * map_coord[0] / 2;
+    float starty = 100 + map_coord[0] % 2 * a * sqrt(3) / 2 + sqrt(3) * a * map_coord[1];
+    hex->setPoint(0, sf::Vector2f(startx, starty));
+    hex->setPoint(1, sf::Vector2f(startx + a / 2, starty - a * sqrt(3) / 2));
+    hex->setPoint(2, sf::Vector2f(startx + a * 3 / 2, starty - a * sqrt(3) / 2));
+    hex->setPoint(3, sf::Vector2f(startx + 2 * a, starty));
+    hex->setPoint(4, sf::Vector2f(startx + a * 3 / 2, starty + a * sqrt(3) / 2));
+    hex->setPoint(5, sf::Vector2f(startx + a / 2, starty + a * sqrt(3) / 2));
+    hex->setFillColor(color);
+    hex->setOutlineThickness(1.f);
+    hex->setOutlineColor(sf::Color(100, 150, 50));
+}
+
+
+
 //
 //Cell::Cell(sf::Vector2f coordinates, sf::RenderWindow* win, Entity* entity_ptr)
 //{

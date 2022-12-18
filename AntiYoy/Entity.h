@@ -7,9 +7,10 @@ class Entity
 private:
 	unsigned short int money_cost;
 public:
-	Entity(int x, int y, bool stat = 1, unsigned short int money = 0);
+	Entity(int x, int y, int player_num);
 	Entity();
 	int map_coord[2];
+	int player_status;
 	bool alive_status; /*if alive = 1, else 0*/
 	~Entity();
 };

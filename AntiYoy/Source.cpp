@@ -2,22 +2,14 @@
 #include "Maincore.h"
 #include <SFML/Graphics.hpp>
 
-void drawhex(int x, int y, sf::RenderWindow* window, sf::ConvexShape* arr) {
-	sf::ConvexShape* hex;
-	hex = arr;
-	hex->setPointCount(6);
-	int a = 20;
-	float startx = 100 + 3 * a * x / 2;
-	float starty = 100 + x % 2 * a * sqrt(3) / 2 + sqrt(3) * a * y;
-	hex->setPoint(0, sf::Vector2f(startx, starty));
-	hex->setPoint(1, sf::Vector2f(startx + a / 2, starty - a * sqrt(3) / 2));
-	hex->setPoint(2, sf::Vector2f(startx + a * 3 / 2, starty - a * sqrt(3) / 2));
-	hex->setPoint(3, sf::Vector2f(startx + 2 * a, starty));
-	hex->setPoint(4, sf::Vector2f(startx + a * 3 / 2, starty + a * sqrt(3) / 2));
-	hex->setPoint(5, sf::Vector2f(startx + a / 2, starty + a * sqrt(3) / 2));
-	hex->setFillColor(sf::Color(255, 0, 0));
-	hex->setOutlineThickness(1.f);
-	hex->setOutlineColor(sf::Color(100, 150, 100));
+
+void draw_endbutt(sf::RenderWindow* window) {
+	sf::CircleShape endbutt(50.f);
+
+	endbutt.setFillColor(sf::Color(255, 0, 0));
+	sf::CircleShape* pont = &endbutt;
+	endbutt.setPosition(sf::Vector2f(800.f, 800.f));
+	window->draw(endbutt);
 }
 
 void main() {
@@ -47,52 +39,68 @@ void main() {
 	while(window.isOpen()){
 		while (gamestatus) {
 			for (unsigned short int player_num = 0; player_num < 2; player_num++) {
-				while (window.pollEvent(event)) {
-					if (event.type == sf::Event::Closed)
-						window.close();
-					if (event.type == sf::Event::KeyPressed) {
-						if (event.key.code == sf::Keyboard::Escape)
+				while (Engine.players[player_num]->movestatus) {
+					while (window.pollEvent(event)) {
+						if (event.type == sf::Event::Closed)
 							window.close();
-					}
+						if (event.type == sf::Event::KeyPressed) {
+							if (event.key.code == sf::Keyboard::Escape)
+								window.close();
+						}
 
-					if (event.type == sf::Event::MouseButtonPressed) {
-						if (event.mouseButton.button == sf::Mouse::Left) {
-							sf::Vector2i mouse_pos = sf::Mouse::getPosition() - window.getPosition();
-							for (int i = 0; i < map_size; i++) {
-								for (int j = 0; j < map_size; j++) {
-									if (((mouse_pos.x - Engine.Map[i][j].centr[0]) * (mouse_pos.x - Engine.Map[i][j].centr[0]) + (mouse_pos.y - Engine.Map[i][j].centr[1]) * (mouse_pos.y - Engine.Map[i][j].centr[1])) <= 196) {
-										std::cout << i << j << '\n';
-										bool flag_cell = true;
-										while (flag_cell) {
-											if (Engine.Map[i][j].entity_status == true) {
-												std::cout << "BFS";
-												/*!!!!!!!!!!!!!!!!!!!!
+						if (event.type == sf::Event::MouseButtonPressed) {
+							if (event.mouseButton.button == sf::Mouse::Left) {
+								sf::Vector2i mouse_pos = sf::Mouse::getPosition() - window.getPosition();
+								if ((mouse_pos.x - 860) * (mouse_pos.x - 860) + (mouse_pos.y - 890) * (mouse_pos.y - 890) < 1000) {
+									Engine.players[player_num]->movestatus = false;
+									std::cout << player_num;
+								}
+								else {
+									for (int i = 0; i < map_size; i++) {
+										for (int j = 0; j < map_size; j++) {
+											if (((mouse_pos.x - Engine.Map[i][j].centr[0]) * (mouse_pos.x - Engine.Map[i][j].centr[0]) + (mouse_pos.y - Engine.Map[i][j].centr[1]) * (mouse_pos.y - Engine.Map[i][j].centr[1])) <= 300 && Engine.Map[i][j].player_status == player_num + 1) {
+												Engine.Map[i][j].color = sf::Color(0, 255, 0);
+												Engine.Map[i][j].draw(pointer_win, arr[i][j]);
+												window.draw(array[i][j]);
+												window.display();
+												bool flag_cell = true;
+												while (flag_cell) {
+													if (Engine.Map[i][j].entity_status == true) {
+														std::cout << "BFS";
+														/*!!!!!!!!!!!!!!!!!!!!
 
-												BFS
+														BFS
 
-												!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-											}
-											else {
-												while (window.pollEvent(event)) {
-													if (event.type == sf::Event::Closed)
-														window.close();
-													if (event.type == sf::Event::KeyPressed) {
-														if (event.key.code == sf::Keyboard::Escape)
-															flag_cell = false;
+														!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 													}
+													else {
+														while (window.pollEvent(event)) {
+															if (event.type == sf::Event::Closed)
+																window.close();
+															if (event.type == sf::Event::KeyPressed) {
+																if (event.key.code == sf::Keyboard::Escape) {
+																	flag_cell = false;
+																	Engine.Map[i][j].color = Engine.players[player_num]->color;
+																}
+															}
 
-													if (event.type == sf::Event::MouseButtonPressed) {
-														sf::Vector2i mouse_pos = sf::Mouse::getPosition() - window.getPosition();
-														if (((mouse_pos.x - Engine.Map[i][j].centr[0]) * (mouse_pos.x - Engine.Map[i][j].centr[0]) + (mouse_pos.y - Engine.Map[i][j].centr[1]) * (mouse_pos.y - Engine.Map[i][j].centr[1])) <= 196) {
-															if (Engine.players[player_num]->money >= 10) {
-																Engine.players[player_num]->money -= 10;
-																std::cout << "create" << i << j << '\n';
-																/*!!!!!!!!!!!!!!!!
+															if (event.type == sf::Event::MouseButtonPressed) {
+																sf::Vector2i mouse_pos = sf::Mouse::getPosition() - window.getPosition();
+																if (((mouse_pos.x - Engine.Map[i][j].centr[0]) * (mouse_pos.x - Engine.Map[i][j].centr[0]) + (mouse_pos.y - Engine.Map[i][j].centr[1]) * (mouse_pos.y - Engine.Map[i][j].centr[1])) <= 300) {
+																	if (Engine.players[player_num]->money >= 10) {
+																		Engine.players[player_num]->money -= 10;
+																		std::cout << "create" << i << j << '\n';
+																		Engine.Map[i][j].color = sf::Color(0, 255, 255);
+																		/*!!!!!!!!!!!!!!!!
+																		
 
-																CREATE AN ENTITY
+																		CREATE AN ENTITY
 
-																!!!!!!!!!!!!!!!!!!!!*/
-																flag_cell = false;
+																		!!!!!!!!!!!!!!!!!!!!*/
+																		Engine.createEnt(i, j, player_num);
+																		flag_cell = false;
+																	}
+																}
 															}
 														}
 													}
@@ -101,27 +109,28 @@ void main() {
 										}
 									}
 								}
+
 							}
+						}
 
-
+					}
+					window.clear();
+					for (int i = 0; i < map_size; i++) {
+						for (int j = 0; j < map_size; j++) {
+							arr[i][j] = &array[i][j];
 						}
 					}
-
-				}
-				window.clear();
-				for (int i = 0; i < map_size; i++) {
-					for (int j = 0; j < map_size; j++) {
-						arr[i][j] = &array[i][j];
+					for (int i = 0; i < map_size; i++) {
+						for (int j = 0; j < map_size; j++) {
+							Engine.Map[i][j].draw(pointer_win, arr[i][j]);
+							window.draw(array[i][j]);
+						}
 					}
+					draw_endbutt(&window);
+					window.display();
 				}
-				for (int i = 0; i < map_size; i++) {
-					for (int j = 0; j < map_size; j++) {
-						drawhex(i, j, pointer_win, arr[i][j]);
-						window.draw(array[i][j]);
-					}
-				}
-				window.display();
 			}
+			Engine.processing();
 		}
 	}
 }
