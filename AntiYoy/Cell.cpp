@@ -27,10 +27,10 @@ Cell::Cell(int x, int y)
 }
 void Cell::draw_point(sf::RenderWindow* window) {
     sf::CircleShape point(10.f);
-
-    point.setFillColor(sf::Color(0, 0, 0));
+    std::cout << map_coord[0] << map_coord[1] << '\n';
+    point.setFillColor(sf::Color(0, 100, 100));
     sf::CircleShape* pont = &point;
-    float centr_f[2] = {startx + size + 5, starty + size * sqrt(3)};
+    float centr_f[2] = {startx + size / 2, starty - size / 2};
     point.setPosition(sf::Vector2f(centr_f[0], centr_f[1]));
     window->draw(point);
 }

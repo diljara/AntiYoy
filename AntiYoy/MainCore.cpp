@@ -47,7 +47,7 @@ std::vector<Cell *> MainCore::entity_steps(Cell* StartCell)
     // return can_go;
 
     std::vector<Cell *> can_go;
-    for (unsigned int to = 0; to < adj_list[s]; to++)
+    for (unsigned int to = 0; to < adj_list[s].size(); to++)
         can_go.push_back(&Map[adj_list[s][to] / 20][adj_list[s][to] % 20]);
     return can_go;
 }
@@ -140,10 +140,7 @@ void MainCore::fill_adj_list()
     }
 }
 void MainCore::draw_way(Cell* StartCell, sf::RenderWindow* window){
-    std::vector<Cell*> way_array;
-    for (int counter_way = 0; counter_way < entity_steps(StartCell).size(); counter_way++) {
-        way_array.push_back(entity_steps(StartCell)[counter_way]);
-    }
+    std::vector<Cell*> way_array = entity_steps(StartCell);
     for (int counter_way = 0; counter_way < way_array.size(); counter_way++) {
         way_array[counter_way]->draw_point(window);
     }
@@ -162,13 +159,13 @@ MainCore::MainCore()
         }
     }
 
-    Player1 = Player(&Map[19][19], sf::Color(120, 0, 0));
+    Player1 = Player(&Map[15][15], sf::Color(120, 0, 0));
     Player2 = Player(&Map[0][0], sf::Color(0, 0, 120));
 
     Map[0][0].color = Player2.color;
     Map[0][0].player_status = 2;
-    Map[19][19].color = Player1.color;
-    Map[19][19].player_status = 1;
+    Map[15][15].color = Player1.color;
+    Map[15][15].player_status = 1;
 
     players[0] = &Player1;
     players[1] = &Player2;

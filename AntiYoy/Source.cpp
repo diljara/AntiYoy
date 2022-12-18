@@ -35,6 +35,7 @@ void main() {
 	sf::Event event;
 	sf::ConvexShape array[20][20];
 	sf::ConvexShape* arr[20][20];
+	Engine.fill_adj_list();
 	bool gamestatus = true;
 	while(window.isOpen()){
 		while (gamestatus) {
@@ -72,8 +73,11 @@ void main() {
 														BFS
 
 														!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-														/*Engine.draw_way(&Engine.Map[i][j], &window);*/
-														std::vector<Cell*> way_array = Engine.entity_steps(&Engine.Map[i][j]);
+														Engine.draw_way(&Engine.Map[i][j], &window);
+														window.display();
+														/*std::vector<Cell*> way_array = Engine.entity_steps(&Engine.Map[i][j]);*/
+														while(true){}
+														flag_cell = false;
 													}
 													else {
 														while (window.pollEvent(event)) {
