@@ -14,8 +14,9 @@ std::vector<Cell *> MainCore::entity_steps(Cell* StartCell)
     std::queue<int> q;
     q.push(s);
     std::vector<bool> used(400);
-    std::vector<int> d(400), p(400);
+    std::vector<int> d(400, 1000000), p(400);
     used[s] = true;
+    d[s] = 0;
     p[s] = -1;
     while (!q.empty())
     {
