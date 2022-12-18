@@ -25,10 +25,10 @@ std::vector<Cell *> MainCore::entity_steps(Cell* StartCell)
         {
             int to = adj_list[v][i];
             if (!used[to] &&
-                (Map[to / 20][to % 20].Player_status == Map[s / 20][s % 20].Player_status ||
-                 Map[to / 20][to % 20].Player_status == 0))
+                (Map[to / 20][to % 20].player_status == Map[s / 20][s % 20].player_status ||
+                 Map[to / 20][to % 20].player_status == 0))
             {
-                if (Map[v / 20][v % 20].Player_status)
+                if (Map[v / 20][v % 20].player_status)
                 {
                     used[to] = true;
                     q.push(to);
@@ -144,13 +144,12 @@ void MainCore::fill_adj_list()
 MainCore::MainCore()
 {
     gamestatus = true;
-    GraphicsCore = GameCore();
     for (int x = 0; x < 20; x++)
     {
         for (int y = 0; y < 20; y++)
         {
 
-            Map[x][y] = Cell(x, y, GraphicsCore.window);
+            Map[x][y] = Cell(x, y);
             Map_pointer[x][y] = &Map[x][y];
         }
     }
@@ -160,26 +159,26 @@ MainCore::MainCore()
     players[0] = &Player1;
     players[1] = &Player2;
 }
-
-void MainCore::processing() {
-    for (int i = 0; i < 2; i++) {
-        players[i]->money += players[i]->self_cells.size();
-        int debt = 0;
-        for (int j = 0; j < players[i]->self_entity_cells.size(); j++) {
-            debt = players[i]->self_entity_cells[j]->power;
-        }
-        if (debt > players[i]->money) {
-            for (int entity_count = 0; entity_count < players[i]->self_entity_cells.size(); entity_count++) {
-                delete players[i]->self_entity_cells[entity_count];
-            }
-        }
-        else {
-            players[i]->money = players[i]->money - debt;
-        }
-        
-    }
-    std::vector<Cell*> virtent;
-    for (int i = 0; i < players[0]->self_entity_cells.size() + players[1]->self_entity_cells.size(); i++) {
-
-    }
-}
+//
+//void MainCore::processing() {
+//    for (int i = 0; i < 2; i++) {
+//        players[i]->money += players[i]->self_cells.size();
+//        int debt = 0;
+//        for (int j = 0; j < players[i]->self_entity_cells.size(); j++) {
+//            debt = players[i]->self_entity_cells[j]->power;
+//        }
+//        if (debt > players[i]->money) {
+//            for (int entity_count = 0; entity_count < players[i]->self_entity_cells.size(); entity_count++) {
+//                delete players[i]->self_entity_cells[entity_count];
+//            }
+//        }
+//        else {
+//            players[i]->money = players[i]->money - debt;
+//        }
+//        
+//    }
+//    std::vector<Cell*> virtent;
+//    for (int i = 0; i < players[0]->self_entity_cells.size() + players[1]->self_entity_cells.size(); i++) {
+//
+//    }
+//}

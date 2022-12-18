@@ -5,7 +5,7 @@
 #include <vector>
 
 Player::Player(Cell* start_cell) {
-	money = 10;
+	money = 20;
 	self_cells.push_back(start_cell);
 	movestatus = true;
 }

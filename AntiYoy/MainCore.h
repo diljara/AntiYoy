@@ -14,7 +14,6 @@ private:
 
 public:
 	MainCore();
-	GameCore GraphicsCore;
 	bool gamestatus;
 	Player Player1;
 	Player Player2;
@@ -24,7 +23,6 @@ public:
 	Cell Map[20][20];
 	Cell* Map_pointer[20][20];
 	
-	void processing();
 
 	std::vector<Entity*> Entities; 
 	std::vector<Cell *> entity_steps(Cell* StartCell);
