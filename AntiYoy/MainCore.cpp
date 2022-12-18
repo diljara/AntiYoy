@@ -11,39 +11,44 @@ std::vector<Cell *> MainCore::entity_steps(Cell* StartCell)
 {
     int s = StartCell->map_coord[0] * 20 + StartCell->map_coord[1];
 
-    std::queue<int> q;
-    q.push(s);
-    std::vector<bool> used(400);
-    std::vector<int> d(400, 1000000), p(400);
-    used[s] = true;
-    d[s] = 0;
-    p[s] = -1;
-    while (!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        if (Map[v / 20][v % 20].player_status) 
-        {
-            for (unsigned int i = 0; i < adj_list[v].size(); ++i)
-            {
-                int to = adj_list[v][i];
-                if (!used[to] &&
-                    (Map[to / 20][to % 20].player_status == Map[s / 20][s % 20].player_status ||
-                    Map[to / 20][to % 20].player_status == 0))
-                {
-                    used[to] = true;
-                    q.push(to);
-                    d[to] = d[v] + 1;
-                    p[to] = v;
-                }
-            }
-        }
-    }
+    // std::queue<int> q;
+    // q.push(s);
+    // std::vector<bool> used(400);
+    // std::vector<int> d(400, 1000000), p(400);
+    // used[s] = true;
+    // d[s] = 0;
+    // p[s] = -1;
+    // while (!q.empty())
+    // {
+    //     int v = q.front();
+    //     q.pop();
+    //     if (Map[v / 20][v % 20].player_status) 
+    //     {
+    //         for (unsigned int i = 0; i < adj_list[v].size(); ++i)
+    //         {
+    //             int to = adj_list[v][i];
+    //             if (!used[to] &&
+    //                 (Map[to / 20][to % 20].player_status == Map[s / 20][s % 20].player_status ||
+    //                 Map[to / 20][to % 20].player_status == 0))
+    //             {
+    //                 used[to] = true;
+    //                 q.push(to);
+    //                 d[to] = d[v] + 1;
+    //                 p[to] = v;
+    //             }
+    //         }
+    //     }
+    // }
+
+    // std::vector<Cell *> can_go;
+    // for (unsigned int to = 0; to < 400; to++)
+    //     if (d[to] <= 3 && to != s) 
+    //         can_go.push_back(&Map[to / 20][to % 20]);
+    // return can_go;
 
     std::vector<Cell *> can_go;
-    for (unsigned int to = 0; to < 400; to++)
-        if (d[to] <= 3 && to != s) 
-            can_go.push_back(&Map[to / 20][to % 20]);
+    for (unsigned int to = 0; to < adj_list[s]; to++)
+        can_go.push_back(&Map[adj_list[s][to] / 20][adj_list[s][to] % 20]);
     return can_go;
 }
 
