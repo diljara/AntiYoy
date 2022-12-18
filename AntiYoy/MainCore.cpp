@@ -21,26 +21,33 @@ std::vector<Cell *> MainCore::entity_steps(Cell* StartCell)
     {
         int v = q.front();
         q.pop();
-        for (unsigned int i = 0; i < adj_list[v].size(); ++i)
+        if (Map[v / 20][v % 20].player_status) 
         {
-            int to = adj_list[v][i];
-            if (!used[to] &&
-                (Map[to / 20][to % 20].player_status == Map[s / 20][s % 20].player_status ||
-                 Map[to / 20][to % 20].player_status == 0))
+            for (unsigned int i = 0; i < adj_list[v].size(); ++i)
             {
-                if (Map[v / 20][v % 20].player_status)
+                int to = adj_list[v][i];
+                if (!used[to] &&
+                    (Map[to / 20][to % 20].player_status == Map[s / 20][s % 20].player_status ||
+                    Map[to / 20][to % 20].player_status == 0))
                 {
                     used[to] = true;
                     q.push(to);
                     d[to] = d[v] + 1;
                     p[to] = v;
-                }
-                else
-                {
-                    used[to] = true;
-                    q.push(to);
-                    d[to] = d[v] + 100;
-                    p[to] = v;
+                    // if (Map[v / 20][v % 20].player_status)
+                    // {
+                    //     used[to] = true;
+                    //     q.push(to);
+                    //     d[to] = d[v] + 1;
+                    //     p[to] = v;
+                    // }
+                    // else
+                    // {
+                    //     used[to] = true;
+                    //     q.push(to);
+                    //     d[to] = d[v] + 100;
+                    //     p[to] = v;
+                    // }
                 }
             }
         }
