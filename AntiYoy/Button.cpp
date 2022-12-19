@@ -34,3 +34,8 @@ void Button::render()
 	window->draw(text);
 	
 }
+
+void Button::change_txt(std::string txt)
+{
+	text.setString(txt);
+}

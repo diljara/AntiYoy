@@ -15,6 +15,7 @@ public:
 	Button();
 	Button(sf::Vector2f coord, sf::RenderWindow* win, std::string txt = "", std::string name = "");
 	void render();
+	void change_txt(std::string txt);
 
 };
 
