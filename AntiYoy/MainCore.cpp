@@ -171,13 +171,13 @@ MainCore::MainCore()
         }
     }
 
-    Player1 = Player(&Map[15][15], sf::Color(120, 0, 0));
+    Player1 = Player(&Map[19][19], sf::Color(120, 0, 0));
     Player2 = Player(&Map[0][0], sf::Color(0, 0, 120));
 
     Map[0][0].color = Player2.color;
     Map[0][0].player_status = 2;
-    Map[15][15].color = Player1.color;
-    Map[15][15].player_status = 1;
+    Map[19][19].color = Player1.color;
+    Map[19][19].player_status = 1;
 
     players[0] = &Player1;
     players[1] = &Player2;
