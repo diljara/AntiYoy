@@ -69,6 +69,7 @@ void MainCore::fill_adj_list()
             if (i == 19 && j == 0)
             {
                 adj_list[i * 20 + j].push_back((i - 1) * 20);
+                adj_list[i * 20 + j].push_back((i - 1) * 20 + 1);
                 adj_list[i * 20 + j].push_back(i * 20 + 1);
             }
             if (i == 0 && j == 19)
@@ -80,7 +81,7 @@ void MainCore::fill_adj_list()
             if (i == 19 && j == 19)
             {
                 adj_list[i * 20 + j].push_back(i * 20 + j - 1);
-                adj_list[i * 20 + j].push_back((i - 1) * 20 + j - 1);
+                // adj_list[i * 20 + j].push_back((i - 1) * 20 + j - 1);
                 adj_list[i * 20 + j].push_back((i - 1) * 20 + j);
             }
             if (i == 0 && (j > 0 && j < 19))
@@ -88,14 +89,22 @@ void MainCore::fill_adj_list()
                 adj_list[i * 20 + j].push_back(j - 1);
                 adj_list[i * 20 + j].push_back(j + 1);
                 adj_list[i * 20 + j].push_back(20 + j);
-                adj_list[i * 20 + j].push_back(20 + j - 1);
+                if (j % 2)
+                {
+                    adj_list[i * 20 + j].push_back(20 + j - 1);
+                    adj_list[i * 20 + j].push_back(20 + j + 1);
+                }
             }
             if (i == 19 && (j > 0 && j < 19))
             {
                 adj_list[i * 20 + j].push_back(i * 20 + j - 1);
                 adj_list[i * 20 + j].push_back(i * 20 + j + 1);
-                adj_list[i * 20 + j].push_back((i - 1) * 20 + j + 1);
                 adj_list[i * 20 + j].push_back((i - 1) * 20 + j);
+                if (j % 2)
+                {
+                    adj_list[i * 20 + j].push_back((i - 1) * 20 + j - 1);
+                    adj_list[i * 20 + j].push_back((i - 1) * 20 + j + 1);
+                }
             }
             if ((i > 0 && i < 19) && (j > 0 && j < 19))
             {
@@ -103,38 +112,41 @@ void MainCore::fill_adj_list()
                 adj_list[i * 20 + j].push_back(i * 20 + j + 1);
                 adj_list[i * 20 + j].push_back((i - 1) * 20 + j);
                 adj_list[i * 20 + j].push_back((i + 1) * 20 + j);
-                if (i % 2 == 0)
+                if (i % 2)
                 {
-                    adj_list[i * 20 + j].push_back((i - 1) * 20 + j - 1);
                     adj_list[i * 20 + j].push_back((i + 1) * 20 + j - 1);
+                    adj_list[i * 20 + j].push_back((i + 1) * 20 + j + 1);
                 }
                 else
                 {
+                    adj_list[i * 20 + j].push_back((i - 1) * 20 + j - 1);
                     adj_list[i * 20 + j].push_back((i - 1) * 20 + j + 1);
-                    adj_list[i * 20 + j].push_back((i + 1) * 20 + j + 1);
                 }
             }
             if ((i > 0 && i < 19) && j == 0)
             {
                 adj_list[i * 20 + j].push_back(i * 20 + j + 1);
                 adj_list[i * 20 + j].push_back((i - 1) * 20 + j);
+                adj_list[i * 20 + j].push_back((i - 1) * 20 + j + 1);
                 adj_list[i * 20 + j].push_back((i + 1) * 20 + j);
-                if (i % 2 == 1)
-                {
-                    adj_list[i * 20 + j].push_back((i - 1) * 20 + j + 1);
-                    adj_list[i * 20 + j].push_back((i + 1) * 20 + j + 1);
-                }
+                // if (i % 2 == 1)
+                // {
+                //     adj_list[i * 20 + j].push_back((i - 1) * 20 + j + 1);
+                //     adj_list[i * 20 + j].push_back((i + 1) * 20 + j + 1);
+                // }
             }
             if ((i > 0 && i < 19) && j == 19)
             {
                 adj_list[i * 20 + j].push_back(i * 20 + j - 1);
                 adj_list[i * 20 + j].push_back((i - 1) * 20 + j);
                 adj_list[i * 20 + j].push_back((i + 1) * 20 + j);
-                if (i % 2 == 0)
-                {
-                    adj_list[i * 20 + j].push_back((i - 1) * 20 + j - 1);
-                    adj_list[i * 20 + j].push_back((i + 1) * 20 + j - 1);
-                }
+                adj_list[i * 20 + j].push_back((i + 1) * 20 + j - 1);
+
+                // if (i % 2 == 0)
+                // {
+                //     adj_list[i * 20 + j].push_back((i - 1) * 20 + j - 1);
+                //     adj_list[i * 20 + j].push_back((i + 1) * 20 + j - 1);
+                // }
             }
         }
     }
