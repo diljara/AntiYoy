@@ -7,11 +7,13 @@ private:
 	sf::Vector2f coord;
 	sf::RenderWindow* window;
 	sf::Font font;
+	std::string file_name;
 public:
 	sf::Sprite sprite;
 	sf::Text text;
+	std::string basic_text;
 	Button();
-	Button(std::string name, sf::Vector2f coord, sf::RenderWindow* win, std::string txt = "");
+	Button(sf::Vector2f coord, sf::RenderWindow* win, std::string txt = "", std::string name = "");
 	void render();
 
 };

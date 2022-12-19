@@ -5,17 +5,20 @@ Button::Button()
 {
 }
 
-Button::Button(std::string name, sf::Vector2f coord, sf::RenderWindow* win, std::string txt)
+Button::Button(sf::Vector2f coord, sf::RenderWindow* win, std::string txt, std::string nm)
 {
-	tex.loadFromFile(name);
-	tex.setSmooth(true);
-	sprite.setTexture(tex);
-	sprite.setScale(0.3, 0.3);
-	sprite.setPosition(coord);
+	if (file_name != "") {
+		file_name = nm;
+		tex.loadFromFile(file_name);
+		tex.setSmooth(true);
+		sprite.setTexture(tex);
+		sprite.setScale(0.3, 0.3);
+		sprite.setPosition(coord);
+	}
 	window = win;
 	font.loadFromFile("font.ttf");
 	text.setString(txt);
-	text.setCharacterSize(50);
+	text.setCharacterSize(35);
 	text.setFont(font);
 	text.setFillColor(sf::Color::White);
 	text.setStyle(sf::Text::Bold | sf::Text::Underlined);
@@ -25,7 +28,7 @@ Button::Button(std::string name, sf::Vector2f coord, sf::RenderWindow* win, std:
 
 void Button::render() 
 {
-	window->draw(sprite);
+	if (file_name != "") window->draw(sprite);
 	// set the text style
 	
 	window->draw(text);
