@@ -9,7 +9,7 @@ Entity::Entity(int x, int y, int player_num) {
 	player_status = player_num;
 	map_coord[0] = x;
 	map_coord[1] = y;
-	alive_status = true;
+	move_status = true;
 	money_cost = 10;
 }
 

@@ -174,9 +174,9 @@ MainCore::MainCore()
     Player1 = Player(sf::Color(120, 0, 0));
     Player2 = Player(sf::Color(0, 0, 120));
 
-    Map[0][0].player_status = 2;
-    Map[0][0].color = Player2.color;
-    Map[0][0].player_status = 2;
+    Map[18][18].player_status = 2;
+    Map[18][18].color = Player2.color;
+    Map[18][18].player_status = 2;
     Map[19][19].player_status = 1;
     Map[19][19].color = Player1.color;
     Map[19][19].player_status = 1;
@@ -217,19 +217,36 @@ int MainCore::get_y(sf::RenderWindow* window) {
 
 }
 
-void MainCore::processing() {
+void MainCore::processing(sf::RenderWindow* window) {
     Player1.movestatus = true;
     Player2.movestatus = true;
+    bool flag1 = 0;
+    bool flag2 = 0;
+    for (int counter = 0; counter < ent.size(); counter++) {
+        ent[counter].move_status = 1;
+    }
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 20; j++) {
             if (Map[i][j].player_status == 1) {
                 Player1.money += 1;
+                flag1 = 1;
             }
             if (Map[i][j].player_status == 2) {
                 Player2.money += 1;
+                flag2 = 1;
             }
         }
     }
+    if (!(flag1 && flag2)) {
+        if (flag1) {
+            std::cout << "Player1 won!";
+        }
+        if (flag2) {
+            std::cout << "Player2 won!";
+        }
+        window->close();
+    }
+    
 }
 
 //void MainCore::processing() {

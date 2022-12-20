@@ -11,6 +11,6 @@ public:
 	Entity();
 	int map_coord[2];
 	int player_status;
-	bool alive_status; /*if alive = 1, else 0*/
+	bool move_status; /*if alive = 1, else 0*/
 	~Entity();
 };

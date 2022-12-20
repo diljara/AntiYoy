@@ -23,7 +23,7 @@ public:
 	void createEnt(int x, int y, int map_num);
 	Cell Map[20][20];
 	Cell* Map_pointer[20][20];
-	void processing();
+	void processing(sf::RenderWindow* window);
 	int get_x(sf::RenderWindow* window);
 	int get_y(sf::RenderWindow* window);
 
