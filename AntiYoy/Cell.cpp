@@ -33,24 +33,37 @@ void Cell::draw_point(sf::RenderWindow* window) {
     float centr_f[2] = {startx + size / 2, starty - size / 2};
     point.setPosition(sf::Vector2f(centr_f[0], centr_f[1]));
     window->draw(point);
+    
+
 }
 
-void Cell::draw(sf::RenderWindow* window, sf::ConvexShape* arr) {
-    sf::ConvexShape* hex;
-    hex = arr;
-    hex->setPointCount(6);
+void Cell::draw(sf::RenderWindow* window) {
+    sf::ConvexShape hex;
+    hex.setPointCount(6);
     int a = size;
     float startx = 100 + 3 * a * map_coord[0] / 2;
     float starty = 100 + map_coord[0] % 2 * a * sqrt(3) / 2 + sqrt(3) * a * map_coord[1];
-    hex->setPoint(0, sf::Vector2f(startx, starty));
-    hex->setPoint(1, sf::Vector2f(startx + a / 2, starty - a * sqrt(3) / 2));
-    hex->setPoint(2, sf::Vector2f(startx + a * 3 / 2, starty - a * sqrt(3) / 2));
-    hex->setPoint(3, sf::Vector2f(startx + 2 * a, starty));
-    hex->setPoint(4, sf::Vector2f(startx + a * 3 / 2, starty + a * sqrt(3) / 2));
-    hex->setPoint(5, sf::Vector2f(startx + a / 2, starty + a * sqrt(3) / 2));
-    hex->setFillColor(color);
-    hex->setOutlineThickness(1.f);
-    hex->setOutlineColor(sf::Color(100, 150, 50));
+    hex.setPoint(0, sf::Vector2f(startx, starty));
+    hex.setPoint(1, sf::Vector2f(startx + a / 2, starty - a * sqrt(3) / 2));
+    hex.setPoint(2, sf::Vector2f(startx + a * 3 / 2, starty - a * sqrt(3) / 2));
+    hex.setPoint(3, sf::Vector2f(startx + 2 * a, starty));
+    hex.setPoint(4, sf::Vector2f(startx + a * 3 / 2, starty + a * sqrt(3) / 2));
+    hex.setPoint(5, sf::Vector2f(startx + a / 2, starty + a * sqrt(3) / 2));
+    hex.setFillColor(color);
+    hex.setOutlineThickness(1.f);
+    hex.setOutlineColor(sf::Color(100, 150, 50));
+    sf::Texture texture;
+    if(!texture.loadFromFile("wild.png")) {
+        std::cout << "error";
+    }
+    window->draw(hex);
+    if (entity_status == 1) {
+        sf::Sprite enemySprite;
+        enemySprite.setTexture(texture);
+        enemySprite.setScale(sf::Vector2f(0.2f, 0.2f));
+        enemySprite.setPosition(sf::Vector2f(startx + size / 5, starty - size));
+        window->draw(enemySprite);
+    }
 }
 
 

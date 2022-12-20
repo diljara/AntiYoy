@@ -34,8 +34,7 @@ void main() {
 	sf::RenderWindow* pointer_win = &window;
 	sf::Clock clc;
 	sf::Event event;
-	sf::ConvexShape array[20][20];
-	sf::ConvexShape* arr[20][20];
+	bool flag_step;
 	Engine.fill_adj_list();
 	bool gamestatus = true;
 	while(window.isOpen()){
@@ -69,13 +68,7 @@ void main() {
 										for (int j = 0; j < map_size; j++) {
 
 											if (((mouse_pos.x - Engine.Map[i][j].centr[0]) * (mouse_pos.x - Engine.Map[i][j].centr[0]) + (mouse_pos.y - Engine.Map[i][j].centr[1]) * (mouse_pos.y - Engine.Map[i][j].centr[1])) <= 300 && Engine.Map[i][j].player_status == player_num + 1) {
-												Engine.Map[i][j].color = sf::Color(0, 255, 0);
-												
-												Engine.Map[i][j].draw(pointer_win, arr[i][j]);
-												window.draw(array[i][j]);
-												
-												
-											
+												Engine.Map[i][j].draw_point(&window);
 												window.display();
 												
 												bool flag_cell = true;
@@ -91,8 +84,55 @@ void main() {
 														Engine.draw_way(&Engine.Map[i][j], &window);
 														
 														window.display();
-														/*std::vector<Cell*> way_array = Engine.entity_steps(&Engine.Map[i][j]);*/
-														while(true){}
+														flag_step = 1;
+														while (flag_step) {
+															while (window.pollEvent(event)) {
+																if (event.type == sf::Event::Closed)
+																	window.close();
+																if (event.type == sf::Event::KeyPressed) {
+																	if (event.key.code == sf::Keyboard::Escape) {
+																		flag_step = false;
+																		Engine.Map[i][j].color = Engine.players[player_num]->color;
+																	}
+																}
+
+																if (event.type == sf::Event::MouseButtonPressed) {
+																	if (event.mouseButton.button == sf::Mouse::Left) {
+																		for (int counter3 = 0; counter3 < Engine.entity_steps(&Engine.Map[i][j]).size(); counter3++) {
+																			if (Engine.get_x(&window) == Engine.entity_steps(&Engine.Map[i][j])[counter3]->map_coord[0] && Engine.get_y(&window) == Engine.entity_steps(&Engine.Map[i][j])[counter3]->map_coord[1]) {
+																				Cell* nextstep = Engine.entity_steps(&Engine.Map[i][j])[counter3];
+																				Entity* ent_cell = nextstep->entity_pointer;
+																				if (nextstep->entity_status == 1) {
+																					for (int counter4 = 0; counter4 < Engine.Entities.size(); counter4++) {
+																						if (Engine.Entities[counter4] == ent_cell) {
+																							Engine.Entities[counter4] = Engine.Entities[Engine.Entities.size() - 1];
+																							Engine.ent[counter4] = Engine.ent[Engine.Entities.size() - 1];
+																							Engine.ent.pop_back();
+																							Engine.Entities.pop_back();
+																						}
+																					}
+																				}
+																				std::cout << 1;
+																				nextstep->color = Engine.players[player_num]->color;
+																				std::cout << '\n' << nextstep->player_status << '\n' << player_num + 1 << '\n';
+																				nextstep->player_status = player_num + 1;
+																				nextstep->entity_status = 1;																				
+																				nextstep->entity_pointer = Engine.Map[i][j].entity_pointer;
+																				Engine.Map[i][j].entity_pointer = nullptr;
+																				Engine.Map[i][j].entity_status = 0;
+																				nextstep->entity_pointer->map_coord[0] = nextstep->map_coord[0];
+																				nextstep->entity_pointer->map_coord[1] = nextstep->map_coord[1];	
+																				flag_step = false;
+																				break;
+																			}
+																		}
+																	}
+																}
+
+
+
+															}
+														}
 														flag_cell = false;
 													}
 													else {
@@ -111,16 +151,9 @@ void main() {
 																if (((mouse_pos.x - Engine.Map[i][j].centr[0]) * (mouse_pos.x - Engine.Map[i][j].centr[0]) + (mouse_pos.y - Engine.Map[i][j].centr[1]) * (mouse_pos.y - Engine.Map[i][j].centr[1])) <= 300) {
 																	if (Engine.players[player_num]->money >= 10) {
 																		Engine.players[player_num]->money -= 10;
-																		std::cout << "create" << i << j << '\n';
-																		Engine.Map[i][j].color = sf::Color(0, 255, 255);
-																		/*!!!!!!!!!!!!!!!!
-																		
-
-																		CREATE AN ENTITY
-
-																		!!!!!!!!!!!!!!!!!!!!*/
 																		Engine.createEnt(i, j, player_num);
 																		flag_cell = false;
+
 																	}
 																}
 															}
@@ -137,20 +170,15 @@ void main() {
 
 					}
 					window.clear();
-					for (int i = 0; i < map_size; i++) {
-						for (int j = 0; j < map_size; j++) {
-							arr[i][j] = &array[i][j];
-						}
-					}
 					for (auto button : buttons) {
 						button->render();
 					}
 					for (int i = 0; i < map_size; i++) {
 						for (int j = 0; j < map_size; j++) {
-							Engine.Map[i][j].draw(pointer_win, arr[i][j]);
-							window.draw(array[i][j]);
+							Engine.Map[i][j].draw(pointer_win);
 						}
 					}
+					std::cout << "cicl";
 					draw_endbutt(&window);
 					window.display();
 				}

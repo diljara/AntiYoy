@@ -11,45 +11,45 @@ std::vector<Cell *> MainCore::entity_steps(Cell* StartCell)
 {
     int s = StartCell->map_coord[0] * 20 + StartCell->map_coord[1];
 
-    // std::queue<int> q;
-    // q.push(s);
-    // std::vector<bool> used(400);
-    // std::vector<int> d(400, 1000000), p(400);
-    // used[s] = true;
-    // d[s] = 0;
-    // p[s] = -1;
-    // while (!q.empty())
-    // {
-    //     int v = q.front();
-    //     q.pop();
-    //     if (Map[v / 20][v % 20].player_status) 
-    //     {
-    //         for (unsigned int i = 0; i < adj_list[v].size(); ++i)
-    //         {
-    //             int to = adj_list[v][i];
-    //             if (!used[to] &&
-    //                 (Map[to / 20][to % 20].player_status == Map[s / 20][s % 20].player_status ||
-    //                 Map[to / 20][to % 20].player_status == 0))
-    //             {
-    //                 used[to] = true;
-    //                 q.push(to);
-    //                 d[to] = d[v] + 1;
-    //                 p[to] = v;
-    //             }
-    //         }
-    //     }
-    // }
+     std::queue<int> q;
+     q.push(s);
+     std::vector<bool> used(400);
+     std::vector<int> d(400, 1000000), p(400);
+     used[s] = true;
+     d[s] = 0;
+     p[s] = -1;
+     while (!q.empty())
+     {
+         int v = q.front();
+         q.pop();
+         if (Map[v / 20][v % 20].player_status) 
+         {
+             for (unsigned int i = 0; i < adj_list[v].size(); ++i)
+             {
+                 int to = adj_list[v][i];
+                 if (!used[to] &&
+                     (Map[to / 20][to % 20].player_status == Map[s / 20][s % 20].player_status ||
+                     Map[to / 20][to % 20].player_status == 0))
+                 {
+                     used[to] = true;
+                     q.push(to);
+                     d[to] = d[v] + 1;
+                     p[to] = v;
+                 }
+             }
+         }
+     }
 
-    // std::vector<Cell *> can_go;
-    // for (unsigned int to = 0; to < 400; to++)
-    //     if (d[to] <= 3 && to != s) 
-    //         can_go.push_back(&Map[to / 20][to % 20]);
-    // return can_go;
+     std::vector<Cell *> can_go;
+     for (unsigned int to = 0; to < 400; to++)
+         if (d[to] <= 3 && to != s) 
+             can_go.push_back(&Map[to / 20][to % 20]);
+     return can_go;
 
-    std::vector<Cell *> can_go;
-    for (unsigned int to = 0; to < adj_list[s].size(); to++)
-        can_go.push_back(&Map[adj_list[s][to] / 20][adj_list[s][to] % 20]);
-    return can_go;
+    //std::vector<Cell *> can_go;
+    //for (unsigned int to = 0; to < adj_list[s].size(); to++)
+    //    can_go.push_back(&Map[adj_list[s][to] / 20][adj_list[s][to] % 20]);
+    //return can_go;
 }
 
 
@@ -171,11 +171,13 @@ MainCore::MainCore()
         }
     }
 
-    Player1 = Player(&Map[19][19], sf::Color(120, 0, 0));
-    Player2 = Player(&Map[0][0], sf::Color(0, 0, 120));
+    Player1 = Player(sf::Color(120, 0, 0));
+    Player2 = Player(sf::Color(0, 0, 120));
 
+    Map[0][0].player_status = 2;
     Map[0][0].color = Player2.color;
     Map[0][0].player_status = 2;
+    Map[19][19].player_status = 1;
     Map[19][19].color = Player1.color;
     Map[19][19].player_status = 1;
 
@@ -188,19 +190,44 @@ void MainCore::createEnt(int x, int y, int player_num) {
     Entities.push_back(&ent[ent.size() - 1]);
     Map[x][y].entity_status = 1;
     Map[x][y].entity_pointer = Entities[Entities.size() - 1];
-    players[player_num]->self_entity_cells.push_back(Entities[Entities.size() - 1]);
+
+}
+
+int MainCore::get_x(sf::RenderWindow* window) {
+    sf::Vector2i mouse_pos = sf::Mouse::getPosition() - window->getPosition();
+    for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 20; j++) {
+            if ((mouse_pos.x - Map[i][j].centr[0]) * (mouse_pos.x - Map[i][j].centr[0]) + (mouse_pos.y - Map[i][j].centr[1]) * (mouse_pos.y - Map[i][j].centr[1]) <= 300) {
+                return i;
+            }
+        }
+    }
+
+}
+
+int MainCore::get_y(sf::RenderWindow* window) {
+    sf::Vector2i mouse_pos = sf::Mouse::getPosition() - window->getPosition();
+    for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 20; j++) {
+            if ((mouse_pos.x - Map[i][j].centr[0]) * (mouse_pos.x - Map[i][j].centr[0]) + (mouse_pos.y - Map[i][j].centr[1]) * (mouse_pos.y - Map[i][j].centr[1]) <= 300) {
+                return j;
+            }
+        }
+    }
 
 }
 
 void MainCore::processing() {
     Player1.movestatus = true;
     Player2.movestatus = true;
-    for (int counter = 0; counter < players[0]->self_cells.size(); counter++) {
-        if (players[0]->self_cells[counter]->entity_status == 0){
-            players[0]->self_cells[counter]->color = players[0]->color;
-        }
-        else {
-            players[0]->self_cells[counter]->color = players[0]->ent_color;
+    for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 20; j++) {
+            if (Map[i][j].player_status == 1) {
+                Player1.money += 1;
+            }
+            if (Map[i][j].player_status == 2) {
+                Player2.money += 1;
+            }
         }
     }
 }

@@ -24,9 +24,12 @@ public:
 	Cell Map[20][20];
 	Cell* Map_pointer[20][20];
 	void processing();
+	int get_x(sf::RenderWindow* window);
+	int get_y(sf::RenderWindow* window);
+
 
 	std::vector<Entity> ent;
-	std::vector<Entity*> Entities; 
+	std::vector<Entity*> Entities; //don't know how to clear it
 	std::vector<Cell *> entity_steps(Cell* StartCell);
 	std::vector<std::vector<int>> adj_list;
 	void fill_adj_list();

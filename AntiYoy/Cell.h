@@ -17,7 +17,7 @@ public:
 	int size;
 	sf::Color color;
 	float startx;
-	void draw(sf::RenderWindow* window, sf::ConvexShape* arr);
+	void draw(sf::RenderWindow* window);
 	float starty;
 	unsigned short int player_status; /*0, if there no player, Player_num if there is*/
 	void draw_point(sf::RenderWindow* window);
