@@ -69,9 +69,11 @@ void main() {
 												window.display();
 												
 												bool flag_cell = true;
+												
 												while (flag_cell) {
-													if (Engine.Map[i][j].entity_status == true && Engine.Map[i][j].entity_pointer->move_status == 1) {
-														while (window.pollEvent(event)) {
+													if (Engine.Map[i][j].entity_status == true) {
+														if (Engine.Map[i][j].entity_pointer->move_status == true){
+															
 															if (event.type == sf::Event::Closed)
 																window.close();
 															if (event.type == sf::Event::KeyPressed) {
@@ -79,7 +81,8 @@ void main() {
 																	flag_cell = false;
 																}
 															}
-															Engine.Map[i][j].entity_pointer->move_status = 0;
+															std::cout << "BFS";
+															Engine.Map[i][j].entity_pointer->move_status = false;
 															/*!!!!!!!!!!!!!!!!!!!!
 
 															BFS
@@ -87,7 +90,7 @@ void main() {
 															!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 															Engine.draw_way(&Engine.Map[i][j], &window);
-														
+
 															window.display();
 															flag_step = 1;
 															while (flag_step) {
@@ -104,29 +107,34 @@ void main() {
 																	if (event.type == sf::Event::MouseButtonPressed) {
 																		if (event.mouseButton.button == sf::Mouse::Left) {
 																			for (int counter3 = 0; counter3 < Engine.entity_steps(&Engine.Map[i][j]).size(); counter3++) {
-																				if (Engine.get_x(&window) == Engine.entity_steps(&Engine.Map[i][j])[counter3]->map_coord[0] && Engine.get_y(&window) == Engine.entity_steps(&Engine.Map[i][j])[counter3]->map_coord[1]) {
+																				if ((Engine.entity_steps(&Engine.Map[i][j])[counter3]->entity_status == 0 || Engine.entity_steps(&Engine.Map[i][j])[counter3]->color != Engine.Map[i][j].color) && Engine.get_x(&window) == Engine.entity_steps(&Engine.Map[i][j])[counter3]->map_coord[0] && Engine.get_y(&window) == Engine.entity_steps(&Engine.Map[i][j])[counter3]->map_coord[1]) {
 																					Cell* nextstep = Engine.entity_steps(&Engine.Map[i][j])[counter3];
 																					Entity* ent_cell = nextstep->entity_pointer;
-																					if (nextstep->entity_status == 1) {
-																						for (int counter4 = 0; counter4 < Engine.Entities.size(); counter4++) {
-																							if (Engine.Entities[counter4] == ent_cell) {
-																								Engine.Entities[counter4] = Engine.Entities[Engine.Entities.size() - 1];
-																								Engine.ent[counter4] = Engine.ent[Engine.Entities.size() - 1];
-																								Engine.ent.pop_back();
-																								Engine.Entities.pop_back();
+																						if (nextstep->entity_status == 1) {
+																							for (int counter4 = 0; counter4 < Engine.Entities.size(); counter4++) {
+																								if (Engine.Entities[counter4] == ent_cell) {
+																									Engine.Entities[counter4] = Engine.Entities[Engine.Entities.size() - 1];
+																									Engine.ent[counter4] = Engine.ent[Engine.Entities.size() - 1];
+																									Engine.ent.pop_back();
+																									Engine.Entities.pop_back();
+																								}
 																							}
 																						}
-																					}
-																					nextstep->color = Engine.players[player_num]->color;
-																					nextstep->player_status = player_num + 1;
-																					nextstep->entity_status = 1;
-																					nextstep->entity_pointer = Engine.Map[i][j].entity_pointer;
-																					Engine.Map[i][j].entity_pointer = nullptr;
-																					Engine.Map[i][j].entity_status = 0;
-																					nextstep->entity_pointer->map_coord[0] = nextstep->map_coord[0];
-																					nextstep->entity_pointer->map_coord[1] = nextstep->map_coord[1];
-																					flag_step = false;
-																					break;
+																						nextstep->color = Engine.players[player_num]->color;
+																						nextstep->player_status = player_num + 1;
+																						nextstep->entity_status = 1;
+
+																						for (int couttt = 0; couttt < Engine.ent.size(); couttt++) {
+																							if (&Engine.ent[couttt] == Engine.Map[i][j].entity_pointer) {
+																								nextstep->entity_pointer = &Engine.ent[couttt];
+																							}
+																						}
+																						Engine.Map[i][j].entity_pointer = nullptr;
+																						Engine.Map[i][j].entity_status = 0;
+																						nextstep->entity_pointer->map_coord[0] = nextstep->map_coord[0];
+																						nextstep->entity_pointer->map_coord[1] = nextstep->map_coord[1];
+																						flag_step = false;
+																						break;
 																				}
 																			}
 																		}
@@ -136,7 +144,8 @@ void main() {
 
 																}
 															}
-														}
+															
+														}	
 														flag_cell = false;
 													}
 													if(Engine.Map[i][j].entity_status != true) {

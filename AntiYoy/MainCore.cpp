@@ -154,7 +154,9 @@ void MainCore::fill_adj_list()
 void MainCore::draw_way(Cell* StartCell, sf::RenderWindow* window){
     std::vector<Cell*> way_array = entity_steps(StartCell);
     for (int counter_way = 0; counter_way < way_array.size(); counter_way++) {
-        way_array[counter_way]->draw_point(window);
+        if (way_array[counter_way]->entity_status != 1 || way_array[counter_way]->color != StartCell->color) {
+            way_array[counter_way]->draw_point(window);
+        }
     }
 }
 
@@ -168,15 +170,18 @@ MainCore::MainCore()
 
             Map[x][y] = Cell(x, y);
             Map_pointer[x][y] = &Map[x][y];
+            if (!Map[x][y].texture.loadFromFile("wild.png")) {
+                std::cout << "error";
+            }
         }
     }
 
     Player1 = Player(sf::Color(120, 0, 0));
     Player2 = Player(sf::Color(0, 0, 120));
 
-    Map[18][18].player_status = 2;
-    Map[18][18].color = Player2.color;
-    Map[18][18].player_status = 2;
+    Map[0][0].player_status = 2;
+    Map[0][0].color = Player2.color;
+    Map[0][0].player_status = 2;
     Map[19][19].player_status = 1;
     Map[19][19].color = Player1.color;
     Map[19][19].player_status = 1;
@@ -223,7 +228,7 @@ void MainCore::processing(sf::RenderWindow* window) {
     bool flag1 = 0;
     bool flag2 = 0;
     for (int counter = 0; counter < ent.size(); counter++) {
-        ent[counter].move_status = 1;
+        ent[counter].move_status = true;
     }
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 20; j++) {
@@ -248,26 +253,3 @@ void MainCore::processing(sf::RenderWindow* window) {
     }
     
 }
-
-//void MainCore::processing() {
-//    for (int i = 0; i < 2; i++) {
-//        players[i]->money += players[i]->self_cells.size();
-//        int debt = 0;
-//        for (int j = 0; j < players[i]->self_entity_cells.size(); j++) {
-//            debt = players[i]->self_entity_cells[j]->power;
-//        }
-//        if (debt > players[i]->money) {
-//            for (int entity_count = 0; entity_count < players[i]->self_entity_cells.size(); entity_count++) {
-//                delete players[i]->self_entity_cells[entity_count];
-//            }
-//        }
-//        else {
-//            players[i]->money = players[i]->money - debt;
-//        }
-//        
-//    }
-//    std::vector<Cell*> virtent;
-//    for (int i = 0; i < players[0]->self_entity_cells.size() + players[1]->self_entity_cells.size(); i++) {
-//
-//    }
-//}

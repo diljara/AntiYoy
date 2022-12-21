@@ -27,7 +27,7 @@ Cell::Cell(int x, int y)
 }
 void Cell::draw_point(sf::RenderWindow* window) {
     sf::CircleShape point(10.f);
-    std::cout << map_coord[0] << map_coord[1] << '\n';
+    //std::cout << map_coord[0] << map_coord[1] << '\n';
     point.setFillColor(sf::Color(0, 100, 100));
     sf::CircleShape* pont = &point;
     float centr_f[2] = {startx + size / 2, starty - size / 2};
@@ -52,10 +52,6 @@ void Cell::draw(sf::RenderWindow* window) {
     hex.setFillColor(color);
     hex.setOutlineThickness(1.f);
     hex.setOutlineColor(sf::Color(100, 150, 50));
-    sf::Texture texture;
-    if(!texture.loadFromFile("wild.png")) {
-        std::cout << "error";
-    }
     window->draw(hex);
     if (entity_status == 1) {
         sf::Sprite enemySprite;
