@@ -44,9 +44,6 @@ void main() {
 			Button pl1_mon(sf::Vector2f(800.f, 300.f), &window, "3");
 			Button* buttons[3] = { &pl_num, &pl0_mon, &pl1_mon };
 			for (unsigned short int player_num = 0; player_num < 2; player_num++) {
-				pl_num.change_txt("player_num : " + std::to_string(player_num));
-				pl0_mon.change_txt("player_1: " + std::to_string(Engine.players[0]->money));
-				pl1_mon.change_txt("player_2 : " + std::to_string(Engine.players[1]->money));
 				while (Engine.players[player_num]->movestatus) {
 					while (window.pollEvent(event)) {
 						if (event.type == sf::Event::Closed)
@@ -176,6 +173,9 @@ void main() {
 						}
 
 					}
+					pl_num.change_txt("player_num : " + std::to_string(player_num));
+					pl0_mon.change_txt("player_1: " + std::to_string(Engine.players[0]->money));
+					pl1_mon.change_txt("player_2 : " + std::to_string(Engine.players[1]->money));
 					window.clear();
 					for (auto button : buttons) {
 						button->render();
